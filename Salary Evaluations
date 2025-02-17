@@ -1,0 +1,758 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "21996c6a",
+   "metadata": {
+    "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
+    "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:52.133029Z",
+     "iopub.status.busy": "2025-02-17T01:19:52.132565Z",
+     "iopub.status.idle": "2025-02-17T01:19:53.128883Z",
+     "shell.execute_reply": "2025-02-17T01:19:53.127326Z"
+    },
+    "papermill": {
+     "duration": 1.004967,
+     "end_time": "2025-02-17T01:19:53.131145",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:52.126178",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/kaggle/input/salary-dataset-simple-linear-regression/Salary_dataset.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# This Python 3 environment comes with many helpful analytics libraries installed\n",
+    "# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python\n",
+    "# For example, here's several helpful packages to load\n",
+    "\n",
+    "import numpy as np # linear algebra\n",
+    "import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)\n",
+    "\n",
+    "# Input data files are available in the read-only \"../input/\" directory\n",
+    "# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory\n",
+    "\n",
+    "import os\n",
+    "for dirname, _, filenames in os.walk('/kaggle/input'):\n",
+    "    for filename in filenames:\n",
+    "        print(os.path.join(dirname, filename))\n",
+    "\n",
+    "# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using \"Save & Run All\" \n",
+    "# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "10b4585f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003926,
+     "end_time": "2025-02-17T01:19:53.139601",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:53.135675",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5cb8116d",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003787,
+     "end_time": "2025-02-17T01:19:53.147444",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:53.143657",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# ABOUT THIS DATASET\n",
+    "* The dataset shows the correlation between salary levels versus the years of experience.  \n",
+    "* This dataset came Kaggle.com and it was created by Allena Venkata Sai Abhishek ([Dataset Link](https://www.kaggle.com/datasets/abhishek14398/salary-dataset-simple-linear-regression)).\n",
+    "\n",
+    "**Significance of the dataset**  \n",
+    "\n",
+    "* Years of experience has a great significance on salary.\n",
+    "* Employees with many years of experience earn more. \n",
+    " \n",
+    "\n",
+    "**Significance of Analysis**  \n",
+    "* To understannd the relationship between years of experience and the slary level"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f240b822",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003807,
+     "end_time": "2025-02-17T01:19:53.155214",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:53.151407",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Data Preprocessing\n",
+    "1. We shall understand what our data is all about\n",
+    "2. We shall do data cleanup\n",
+    "   "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a7679868",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003652,
+     "end_time": "2025-02-17T01:19:53.162740",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:53.159088",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Data Loading**\n",
+    "\n",
+    "* Import the librarys\n",
+    "* Import pandas for dataset manipulation.\n",
+    "* Import Numpy for mathemaatical operations\n",
+    "* import Matplotlib for ploting\n",
+    "* import Seaborn for advanced graphs and graphs styling.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "5aeb32f4",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:53.172587Z",
+     "iopub.status.busy": "2025-02-17T01:19:53.171924Z",
+     "iopub.status.idle": "2025-02-17T01:19:54.942302Z",
+     "shell.execute_reply": "2025-02-17T01:19:54.941213Z"
+    },
+    "papermill": {
+     "duration": 1.777869,
+     "end_time": "2025-02-17T01:19:54.944523",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:53.166654",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c27b361d",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003727,
+     "end_time": "2025-02-17T01:19:54.952508",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:54.948781",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Read\n",
+    "* Read the dataset"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e263b02d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:54.962583Z",
+     "iopub.status.busy": "2025-02-17T01:19:54.961907Z",
+     "iopub.status.idle": "2025-02-17T01:19:54.979930Z",
+     "shell.execute_reply": "2025-02-17T01:19:54.978641Z"
+    },
+    "papermill": {
+     "duration": 0.02551,
+     "end_time": "2025-02-17T01:19:54.982012",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:54.956502",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "Salary = pd.read_csv(\"/kaggle/input/salary-dataset-simple-linear-regression/Salary_dataset.csv\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0c594546",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003772,
+     "end_time": "2025-02-17T01:19:54.989905",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:54.986133",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Diplay the first 5 rows and columns\n",
+    "* Use the head function to display."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "2e3b1aa5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:54.999521Z",
+     "iopub.status.busy": "2025-02-17T01:19:54.999091Z",
+     "iopub.status.idle": "2025-02-17T01:19:55.029622Z",
+     "shell.execute_reply": "2025-02-17T01:19:55.028392Z"
+    },
+    "papermill": {
+     "duration": 0.03746,
+     "end_time": "2025-02-17T01:19:55.031364",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:54.993904",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Unnamed: 0</th>\n",
+       "      <th>YearsExperience</th>\n",
+       "      <th>Salary</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1.2</td>\n",
+       "      <td>39344.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>46206.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>1.6</td>\n",
+       "      <td>37732.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>2.1</td>\n",
+       "      <td>43526.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>2.3</td>\n",
+       "      <td>39892.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Unnamed: 0  YearsExperience   Salary\n",
+       "0           0              1.2  39344.0\n",
+       "1           1              1.4  46206.0\n",
+       "2           2              1.6  37732.0\n",
+       "3           3              2.1  43526.0\n",
+       "4           4              2.3  39892.0"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Salary.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "729f7c17",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003905,
+     "end_time": "2025-02-17T01:19:55.039600",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.035695",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Explanation\n",
+    "There are 3 columns namely\n",
+    "* Unnamed\n",
+    "* YearsExperience\n",
+    "* Salary"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2c8a9584",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003757,
+     "end_time": "2025-02-17T01:19:55.047427",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.043670",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Structure of the dataset\n",
+    "* Use the shape function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "a5592c42",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:55.056731Z",
+     "iopub.status.busy": "2025-02-17T01:19:55.056369Z",
+     "iopub.status.idle": "2025-02-17T01:19:55.062830Z",
+     "shell.execute_reply": "2025-02-17T01:19:55.061731Z"
+    },
+    "papermill": {
+     "duration": 0.013101,
+     "end_time": "2025-02-17T01:19:55.064476",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.051375",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(30, 3)"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Salary.shape"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8eb64826",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004415,
+     "end_time": "2025-02-17T01:19:55.073651",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.069236",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Interpretation\n",
+    "* There are 30 entires and 3 columns."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1f55b8a4",
+   "metadata": {
+    "papermill": {
+     "duration": 0.00416,
+     "end_time": "2025-02-17T01:19:55.082243",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.078083",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# > Displaying columns\n",
+    "* Use the columns function to get the column names."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "baef955b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:55.092537Z",
+     "iopub.status.busy": "2025-02-17T01:19:55.092145Z",
+     "iopub.status.idle": "2025-02-17T01:19:55.098603Z",
+     "shell.execute_reply": "2025-02-17T01:19:55.097658Z"
+    },
+    "papermill": {
+     "duration": 0.013873,
+     "end_time": "2025-02-17T01:19:55.100449",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.086576",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Unnamed: 0', 'YearsExperience', 'Salary'], dtype='object')"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Salary.columns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d98fd06a",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004151,
+     "end_time": "2025-02-17T01:19:55.109601",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.105450",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Deep Statistics\n",
+    "* Use the describe function to gain a deeper understanding of the dataset."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "3d68de28",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:55.120295Z",
+     "iopub.status.busy": "2025-02-17T01:19:55.119898Z",
+     "iopub.status.idle": "2025-02-17T01:19:55.145465Z",
+     "shell.execute_reply": "2025-02-17T01:19:55.144361Z"
+    },
+    "papermill": {
+     "duration": 0.033174,
+     "end_time": "2025-02-17T01:19:55.147413",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.114239",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Unnamed: 0</th>\n",
+       "      <th>YearsExperience</th>\n",
+       "      <th>Salary</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>count</th>\n",
+       "      <td>30.000000</td>\n",
+       "      <td>30.000000</td>\n",
+       "      <td>30.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>mean</th>\n",
+       "      <td>14.500000</td>\n",
+       "      <td>5.413333</td>\n",
+       "      <td>76004.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>std</th>\n",
+       "      <td>8.803408</td>\n",
+       "      <td>2.837888</td>\n",
+       "      <td>27414.429785</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>min</th>\n",
+       "      <td>0.000000</td>\n",
+       "      <td>1.200000</td>\n",
+       "      <td>37732.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25%</th>\n",
+       "      <td>7.250000</td>\n",
+       "      <td>3.300000</td>\n",
+       "      <td>56721.750000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50%</th>\n",
+       "      <td>14.500000</td>\n",
+       "      <td>4.800000</td>\n",
+       "      <td>65238.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>75%</th>\n",
+       "      <td>21.750000</td>\n",
+       "      <td>7.800000</td>\n",
+       "      <td>100545.750000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>max</th>\n",
+       "      <td>29.000000</td>\n",
+       "      <td>10.600000</td>\n",
+       "      <td>122392.000000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       Unnamed: 0  YearsExperience         Salary\n",
+       "count   30.000000        30.000000      30.000000\n",
+       "mean    14.500000         5.413333   76004.000000\n",
+       "std      8.803408         2.837888   27414.429785\n",
+       "min      0.000000         1.200000   37732.000000\n",
+       "25%      7.250000         3.300000   56721.750000\n",
+       "50%     14.500000         4.800000   65238.000000\n",
+       "75%     21.750000         7.800000  100545.750000\n",
+       "max     29.000000        10.600000  122392.000000"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Salary.describe()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7e040a68",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004648,
+     "end_time": "2025-02-17T01:19:55.157040",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.152392",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Summary of the dataset\n",
+    "Use the info function to summarize the dataset"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a032e700",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004205,
+     "end_time": "2025-02-17T01:19:55.166140",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.161935",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "0582781a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-02-17T01:19:55.176778Z",
+     "iopub.status.busy": "2025-02-17T01:19:55.176319Z",
+     "iopub.status.idle": "2025-02-17T01:19:55.200892Z",
+     "shell.execute_reply": "2025-02-17T01:19:55.199480Z"
+    },
+    "papermill": {
+     "duration": 0.03221,
+     "end_time": "2025-02-17T01:19:55.202773",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.170563",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 30 entries, 0 to 29\n",
+      "Data columns (total 3 columns):\n",
+      " #   Column           Non-Null Count  Dtype  \n",
+      "---  ------           --------------  -----  \n",
+      " 0   Unnamed: 0       30 non-null     int64  \n",
+      " 1   YearsExperience  30 non-null     float64\n",
+      " 2   Salary           30 non-null     float64\n",
+      "dtypes: float64(2), int64(1)\n",
+      "memory usage: 848.0 bytes\n"
+     ]
+    }
+   ],
+   "source": [
+    "Salary.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0022c25b",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004581,
+     "end_time": "2025-02-17T01:19:55.212666",
+     "exception": false,
+     "start_time": "2025-02-17T01:19:55.208085",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "datasetId": 2799910,
+     "sourceId": 4832081,
+     "sourceType": "datasetVersion"
+    }
+   ],
+   "dockerImageVersionId": 30886,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 6.84612,
+   "end_time": "2025-02-17T01:19:56.139417",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-02-17T01:19:49.293297",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
